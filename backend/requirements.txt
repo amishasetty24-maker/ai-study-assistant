@@ -1,4 +1,4 @@
 flask
 flask-cors
-PyPDF2
 gunicorn
+PyPDF2

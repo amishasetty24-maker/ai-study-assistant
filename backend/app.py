@@ -9,7 +9,7 @@ CORS(app)
 @app.route("/summarize", methods=["POST"])
 def summarize():
     data = request.json
-    text = data.get("text")
+    text = data.get("text", "")
 
     print("Received:", text)
 
@@ -52,4 +52,4 @@ def upload_file():
     return jsonify({"result": summary})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
