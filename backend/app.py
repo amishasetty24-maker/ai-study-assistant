@@ -3,16 +3,16 @@ from flask_cors import CORS
 from PyPDF2 import PdfReader
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
+
 # 🔹 TEXT SUMMARIZATION
-@app.route("/summarize", methods=["POST"  , "OPTIONS"])
+@app.route("/summarize", methods=["POST", "OPTIONS"])
 def summarize():
     data = request.json
     text = data.get("text", "")
 
     print("Received:", text)
 
-    # Simple summarization (first 2 sentences)
     sentences = text.split(".")
 
     if len(sentences) > 2:
@@ -26,7 +26,7 @@ def summarize():
 
 
 # 🔹 PDF UPLOAD + SUMMARIZATION
-@app.route("/upload", methods=["POST" , "OPTIONS"])
+@app.route("/upload", methods=["POST", "OPTIONS"])
 def upload_file():
     file = request.files["file"]
     filename = file.filename
@@ -49,6 +49,16 @@ def upload_file():
     summary = "Summary: " + text[:200]
 
     return jsonify({"result": summary})
+
+
+# ✅ FORCE CORS HEADERS (VERY IMPORTANT)
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+    return response
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
