@@ -5,10 +5,12 @@ from PyPDF2 import PdfReader
 app = Flask(__name__)
 CORS(app)
 
+# ✅ ROOT ROUTE (FIXES TIMEOUT)
 @app.route("/")
 def home():
     return "Backend is running!"
 
+# 🔹 TEXT SUMMARIZATION
 @app.route("/summarize", methods=["POST"])
 def summarize():
     data = request.get_json()
@@ -23,6 +25,7 @@ def summarize():
 
     return jsonify({"result": "Summary: " + summary})
 
+# 🔹 PDF UPLOAD
 @app.route("/upload", methods=["POST"])
 def upload_file():
     file = request.files["file"]
