@@ -3,8 +3,7 @@ from flask_cors import CORS
 from PyPDF2 import PdfReader
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 # 🔹 TEXT SUMMARIZATION
 @app.route("/summarize", methods=["POST"])
 def summarize():
