@@ -4,7 +4,7 @@ async function summarizeText() {
 
     document.getElementById("output").innerText = "Processing...";
 
-    const response = await fetch("http://127.0.0.1:5000/summarize", {
+    const response = await fetch("https://ai-study-assistant.onrender.com/summarize", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -33,7 +33,7 @@ async function uploadPDF() {
 
     document.getElementById("output").innerText = "Processing PDF...";
 
-    const response = await fetch("http://127.0.0.1:5000/upload", {
+    const response = await fetch("https://ai-study-assistant.onrender.com/upload", {
         method: "POST",
         body: formData
     });
