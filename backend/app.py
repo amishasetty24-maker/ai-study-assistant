@@ -3,9 +3,9 @@ from flask_cors import CORS
 from PyPDF2 import PdfReader
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 # 🔹 TEXT SUMMARIZATION
-@app.route("/summarize", methods=["POST"])
+@app.route("/summarize", methods=["POST"  , "OPTIONS"])
 def summarize():
     data = request.json
     text = data.get("text", "")
@@ -26,7 +26,7 @@ def summarize():
 
 
 # 🔹 PDF UPLOAD + SUMMARIZATION
-@app.route("/upload", methods=["POST"])
+@app.route("/upload", methods=["POST" , "OPTIONS"])
 def upload_file():
     file = request.files["file"]
     filename = file.filename
