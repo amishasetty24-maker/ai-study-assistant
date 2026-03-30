@@ -3,12 +3,24 @@ from flask_cors import CORS
 from PyPDF2 import PdfReader
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+
+# ✅ Enable CORS properly
+CORS(app)
+
+# ✅ Handle preflight (OPTIONS) requests
+@app.before_request
+def handle_options():
+    if request.method == "OPTIONS":
+        response = jsonify({"message": "OK"})
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+        response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+        return response
 
 # 🔹 TEXT SUMMARIZATION
-@app.route("/summarize", methods=["POST", "OPTIONS"])
+@app.route("/summarize", methods=["POST"])
 def summarize():
-    data = request.json
+    data = request.get_json()
     text = data.get("text", "")
 
     print("Received:", text)
@@ -26,7 +38,7 @@ def summarize():
 
 
 # 🔹 PDF UPLOAD + SUMMARIZATION
-@app.route("/upload", methods=["POST", "OPTIONS"])
+@app.route("/upload", methods=["POST"])
 def upload_file():
     file = request.files["file"]
     filename = file.filename
@@ -51,14 +63,15 @@ def upload_file():
     return jsonify({"result": summary})
 
 
-# ✅ FORCE CORS HEADERS (VERY IMPORTANT)
+# ✅ Force CORS headers in every response
 @app.after_request
-def add_cors_headers(response):
+def add_headers(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
     response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
     return response
 
 
+# ✅ Run app
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
