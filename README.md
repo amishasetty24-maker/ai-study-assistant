@@ -2,37 +2,85 @@
 
 
 
-A full-stack web application that helps students summarize text and PDF notes quickly.
+A full-stack web application that helps students summarize text and PDF study notes quickly and efficiently.
 
 
 
-\## 🚀 Features
+\## 🚀 Live Demo
+
+
+
+Frontend:
+
+\[Your Netlify URL]
+
+
+
+Backend:
+
+https://ai-study-assistant-zjb3.onrender.com
+
+
+
+\## ✨ Features
+
+
 
 \- Text summarization
 
-\- PDF file upload and summarization
+\- PDF upload and summarization
 
-\- Clean and modern UI
+\- Clean and responsive user interface
 
-\- Fast backend using Flask
+\- REST API communication between frontend and backend
+
+\- Cloud deployment using Render and Netlify
 
 
 
 \## 🛠️ Tech Stack
 
-\- Frontend: HTML, CSS, JavaScript
 
-\- Backend: Python (Flask)
 
-\- Libraries: PyPDF2
+\### Frontend
+
+\- HTML
+
+\- CSS
+
+\- JavaScript
+
+
+
+\### Backend
+
+\- Python
+
+\- Flask
+
+
+
+\### Libraries
+
+\- Flask
+
+\- Flask-CORS
+
+\- PyPDF2
+
+\- Gunicorn
 
 
 
 \## 📂 Project Structure
 
+
+
+```text
+
 ai-study-assistance/
 
-│
+
 
 ├── frontend/
 
@@ -50,31 +98,73 @@ ai-study-assistance/
 
 │   ├── Procfile
 
-
-
-\## ▶️ How to Run
-
-1\. Go to backend folder
-
-2\. Run:
-
-&#x20;  python app.py
-
-3\. Open frontend/index.html in browser
+```
 
 
 
-\## 🌐 Future Improvements
+\## ⚙️ How It Works
 
-\- AI-based summarization
 
-\- Better UI/UX
 
-\- Deployment
+\### Text Summarization
+
+\- User enters text.
+
+\- Frontend sends the text to the Flask backend.
+
+\- Backend processes the text and returns a summary.
+
+
+
+\### PDF Summarization
+
+\- User uploads a PDF file.
+
+\- Backend extracts text using PyPDF2.
+
+\- Summary is generated and returned to the user.
+
+
+
+\## 🌐 Deployment
+
+
+
+\### Frontend
+
+Deployed on Netlify.
+
+
+
+\### Backend
+
+Deployed on Render.
+
+
+
+\## 🔮 Future Improvements
+
+
+
+\- Gemini API integration
+
+\- AI-powered summarization
+
+\- Flashcard generation
+
+\- Quiz generation
+
+\- Download summaries
+
+\- User authentication
+
+\- Summary history
 
 
 
 \## 👨‍💻 Author
+
+
 
 Amisha Sarika Setty
 
