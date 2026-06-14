@@ -4,7 +4,7 @@ async function summarizeText() {
 
     document.getElementById("output").innerText = "Processing...";
 
-    const response = await fetch("https://ai-study-assistant.onrender.com/summarize", {
+    const response = await fetch("https://ai-study-assistant-zjb3.onrender.com/summarize", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -22,9 +22,8 @@ async function summarizeText() {
 async function uploadPDF() {
     const fileInput = document.getElementById("pdfFile");
 
-    // check if file selected
     if (!fileInput.files[0]) {
-        alert("Please select a PDF file first!");
+        alert("Please select a file!");
         return;
     }
 
@@ -33,7 +32,7 @@ async function uploadPDF() {
 
     document.getElementById("output").innerText = "Processing PDF...";
 
-    const response = await fetch("https://ai-study-assistant.onrender.com/upload", {
+    const response = await fetch("https://ai-study-assistant-zjb3.onrender.com/upload", {
         method: "POST",
         body: formData
     });
