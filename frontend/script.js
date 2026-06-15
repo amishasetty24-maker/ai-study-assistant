@@ -1,43 +1,71 @@
-// 🔹 TEXT SUMMARIZATION
+const API_URL = "https://ai-study-assistant-zjb3.onrender.com";
+
 async function summarizeText() {
     const text = document.getElementById("inputText").value;
+    const result = document.getElementById("result");
 
-    document.getElementById("output").innerText = "Processing...";
-
-    const response = await fetch("https://ai-study-assistant-zjb3.onrender.com/summarize", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ text: text })
-    });
-
-    const data = await response.json();
-
-    document.getElementById("output").innerText = data.result;
-}
-
-
-// 🔹 PDF UPLOAD
-async function uploadPDF() {
-    const fileInput = document.getElementById("pdfFile");
-
-    if (!fileInput.files[0]) {
-        alert("Please select a file!");
+    if (!text.trim()) {
+        result.innerText = "Please enter some text.";
         return;
     }
+
+    result.innerText = "⏳ Generating AI summary...";
+
+    try {
+        const response = await fetch(`${API_URL}/summarize`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                text: text
+            })
+        });
+
+        const data = await response.json();
+        result.innerText = data.result;
+
+    } catch (error) {
+        result.innerText = "❌ Error connecting to server.";
+    }
+}
+
+async function uploadPDF() {
+    const fileInput = document.getElementById("pdfFile");
+    const result = document.getElementById("result");
+
+    if (!fileInput.files.length) {
+        result.innerText = "Please choose a file.";
+        return;
+    }
+
+    result.innerText = "⏳ Processing file...";
 
     const formData = new FormData();
     formData.append("file", fileInput.files[0]);
 
-    document.getElementById("output").innerText = "Processing PDF...";
+    try {
+        const response = await fetch(`${API_URL}/upload`, {
+            method: "POST",
+            body: formData
+        });
 
-    const response = await fetch("https://ai-study-assistant-zjb3.onrender.com/upload", {
-        method: "POST",
-        body: formData
-    });
+        const data = await response.json();
+        result.innerText = data.result;
 
-    const data = await response.json();
+    } catch (error) {
+        result.innerText = "❌ Error uploading file.";
+    }
+}
 
-    document.getElementById("output").innerText = data.result;
+function copySummary() {
+    const text = document.getElementById("result").innerText;
+
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            alert("Summary copied successfully!");
+        })
+        .catch(() => {
+            alert("Failed to copy summary.");
+        });
 }
