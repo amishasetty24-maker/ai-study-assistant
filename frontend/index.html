@@ -4,59 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Study Assistant</title>
-
-    <!-- CSS File -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+<div class="background"></div>
 
-        <h1>📚 AI Study Assistant</h1>
+<div class="app">
 
-        <p class="subtitle">
-            Summarize notes, PDFs, and study materials using Gemini AI
+    <div class="hero">
+        <h1>🚀 AI Study Assistant</h1>
+        <p>
+            Transform your notes into concise summaries, key points, and keywords using Gemini AI.
         </p>
+    </div>
 
-        <!-- Text Input -->
+    <div class="glass-card">
+
+        <label>📖 Study Notes</label>
+
         <textarea
             id="inputText"
-            placeholder="Paste your study notes here..."
+            placeholder="Paste your notes, lecture content, or study material here..."
         ></textarea>
 
-        <!-- Buttons -->
-        <div class="button-group">
-            <button onclick="summarizeText()">
-                ✨ Summarize Notes
-            </button>
-
-            <button onclick="copySummary()">
-                📋 Copy Summary
-            </button>
+        <div class="actions">
+            <button onclick="summarizeText()">✨ Generate Summary</button>
+            <button onclick="copySummary()">📋 Copy Result</button>
         </div>
 
-        <!-- File Upload -->
-        <div class="upload-section">
+        <div class="upload-area">
             <input type="file" id="pdfFile">
-
-            <button onclick="uploadPDF()">
-                📄 Upload PDF/TXT
-            </button>
-        </div>
-
-        <!-- Result -->
-        <div class="result-box">
-            <h3>Result</h3>
-
-            <div id="result">
-                Your AI-generated summary will appear here...
-            </div>
+            <button onclick="uploadPDF()">📄 Upload PDF</button>
         </div>
 
     </div>
 
-    <!-- JavaScript File -->
-    <script src="script.js"></script>
+    <div class="result-card">
+
+        <div class="result-header">
+            <h2>✨ AI Generated Output</h2>
+        </div>
+
+        <div id="result">
+            Your AI-generated summary will appear here...
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
