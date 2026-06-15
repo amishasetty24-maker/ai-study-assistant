@@ -109,3 +109,49 @@ function downloadPDF() {
 
     doc.save("AI_Study_Summary.pdf");
 }
+async function generateFlashcards() {
+
+    const text =
+        document.getElementById("inputText").value;
+
+    const result =
+        document.getElementById("result");
+
+    if (!text.trim()) {
+        result.innerText =
+            "Please enter some text.";
+        return;
+    }
+
+    result.innerText =
+        "🧠 Generating flashcards...";
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/flashcards`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body: JSON.stringify({
+                        text: text
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        result.innerText =
+            data.result;
+
+    } catch (error) {
+
+        result.innerText =
+            "❌ Error generating flashcards.";
+    }
+}

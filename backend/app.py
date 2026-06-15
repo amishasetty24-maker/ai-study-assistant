@@ -87,7 +87,46 @@ Study Notes:
             "result": "AI service is temporarily busy. Please try again in a minute."
         }), 500
 
+@app.route("/flashcards", methods=["POST"])
+def flashcards():
+    try:
+        data = request.get_json()
+        text = data.get("text", "")
 
+        if not text.strip():
+            return jsonify({
+                "result": "Please enter some text."
+            })
+
+        if not client:
+            return jsonify({
+                "result": "Gemini API key not configured."
+            }), 500
+
+        prompt = f"""
+You are a study assistant.
+
+Generate 5 study flashcards.
+
+Format:
+
+Q: Question
+A: Answer
+
+Study Notes:
+{text[:10000]}
+"""
+
+        result = generate_summary(prompt)
+
+        return jsonify({
+            "result": result
+        })
+
+    except Exception:
+        return jsonify({
+            "result": "AI service is temporarily busy. Please try again."
+        }), 500
 # PDF UPLOAD + SUMMARIZATION
 @app.route("/upload", methods=["POST"])
 def upload_file():
