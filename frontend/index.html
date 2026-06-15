@@ -34,6 +34,20 @@
             <button onclick="generateQuiz()">🎯 Quiz</button>
             <button onclick="copySummary()">📋 Copy Result</button>
             <button onclick="downloadPDF()">📄 Download PDF</button>
+            <div class="theme-switch-container">
+                <span>🌙</span>
+
+                <label class="switch">
+                    <input
+                        type="checkbox"
+                        id="themeToggle"
+                        onchange="toggleTheme()"
+                    >
+                    <span class="slider"></span>
+                </label>
+
+                <span>☀️</span>
+            </div>
         </div>
 
         <div class="upload-area">

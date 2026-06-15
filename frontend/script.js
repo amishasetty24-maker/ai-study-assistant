@@ -201,3 +201,33 @@ async function generateQuiz() {
             "❌ Error generating quiz.";
     }
 }
+function toggleTheme() {
+
+    document.body.classList.toggle("light-mode");
+
+    const isLight =
+        document.body.classList.contains("light-mode");
+
+    localStorage.setItem(
+        "theme",
+        isLight ? "light" : "dark"
+    );
+}
+
+window.onload = function () {
+
+    const savedTheme =
+        localStorage.getItem("theme");
+
+    const toggle =
+        document.getElementById("themeToggle");
+
+    if(savedTheme === "light"){
+
+        document.body.classList.add("light-mode");
+
+        if(toggle){
+            toggle.checked = true;
+        }
+    }
+}

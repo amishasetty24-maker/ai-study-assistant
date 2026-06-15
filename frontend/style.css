@@ -1,4 +1,10 @@
 *{
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+*{
     margin:0;
     padding:0;
     box-sizing:border-box;
@@ -156,4 +162,104 @@ input[type="file"]{
     button{
         width:100%;
     }
+}
+/* =========================
+   LIGHT MODE
+========================= */
+
+.light-mode{
+    background:#f8fafc;
+    color:#111827;
+}
+
+.light-mode .background{
+    background:
+    radial-gradient(circle at top left,#93c5fd 0%,transparent 40%),
+    radial-gradient(circle at top right,#c4b5fd 0%,transparent 40%),
+    radial-gradient(circle at bottom,#67e8f9 0%,transparent 35%),
+    #f8fafc;
+}
+
+.light-mode .hero p{
+    color:#374151;
+}
+
+.light-mode .glass-card{
+    background:rgba(255,255,255,0.9);
+    border:1px solid rgba(0,0,0,0.08);
+    color:#111827;
+}
+
+.light-mode textarea{
+    background:white;
+    color:#111827;
+    border:1px solid #d1d5db;
+}
+
+.light-mode input[type="file"]{
+    color:#111827;
+}
+
+.light-mode .result-card{
+    background:white;
+    color:#111827;
+}
+
+.light-mode .result-header h2{
+    color:#2563eb;
+}
+/* =========================
+   THEME TOGGLE SWITCH
+========================= */
+
+.theme-switch-container{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:20px;
+    justify-content:center;
+}
+
+.switch{
+    position:relative;
+    width:60px;
+    height:32px;
+}
+
+.switch input{
+    opacity:0;
+    width:0;
+    height:0;
+}
+
+.slider{
+    position:absolute;
+    cursor:pointer;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#475569;
+    transition:.4s;
+    border-radius:34px;
+}
+
+.slider:before{
+    position:absolute;
+    content:"";
+    height:24px;
+    width:24px;
+    left:4px;
+    bottom:4px;
+    background:white;
+    transition:.4s;
+    border-radius:50%;
+}
+
+input:checked + .slider{
+    background:#3b82f6;
+}
+
+input:checked + .slider:before{
+    transform:translateX(28px);
 }
