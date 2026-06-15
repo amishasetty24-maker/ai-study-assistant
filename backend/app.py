@@ -3,6 +3,7 @@ from flask_cors import CORS
 from PyPDF2 import PdfReader
 from google import genai
 import os
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +20,28 @@ if GEMINI_API_KEY:
 @app.route("/")
 def home():
     return "Backend is running!"
+
+
+def generate_summary(prompt):
+    """
+    Retry Gemini request up to 3 times.
+    Helps with temporary 503 overload errors.
+    """
+    for attempt in range(3):
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                contents=prompt
+            )
+            return response.text
+
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed: {e}")
+
+            if attempt < 2:
+                time.sleep(3)
+            else:
+                raise
 
 
 # TEXT SUMMARIZATION
@@ -39,29 +62,29 @@ def summarize():
             }), 500
 
         prompt = f"""
-You are a study assistant.
+You are an AI Study Assistant.
 
-Create:
-1. A concise summary.
-2. 3-5 key points.
-3. Important keywords.
+Analyze the study notes below and provide:
+
+1. Summary
+2. 3-5 Key Points
+3. Important Keywords
 
 Study Notes:
 {text[:10000]}
 """
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash-lite",
-            contents=prompt
-        )
+        result = generate_summary(prompt)
 
         return jsonify({
-            "result": response.text
+            "result": result
         })
 
-    except Exception:
+    except Exception as e:
+        print("Summarize Error:", e)
+
         return jsonify({
-            "result": "AI service is temporarily busy. Please try again in a few minutes."
+            "result": "AI service is temporarily busy. Please try again in a minute."
         }), 500
 
 
@@ -78,7 +101,7 @@ def upload_file():
 
         text = ""
 
-        if file.filename.endswith(".pdf"):
+        if file.filename.lower().endswith(".pdf"):
             reader = PdfReader(file)
 
             for page in reader.pages:
@@ -101,29 +124,29 @@ def upload_file():
             }), 500
 
         prompt = f"""
-You are a study assistant.
+You are an AI Study Assistant.
 
-Create:
-1. A concise summary.
-2. 3-5 key points.
-3. Important keywords.
+Analyze the study notes below and provide:
+
+1. Summary
+2. 3-5 Key Points
+3. Important Keywords
 
 Study Notes:
 {text[:10000]}
 """
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash-lite",
-            contents=prompt
-        )
+        result = generate_summary(prompt)
 
         return jsonify({
-            "result": response.text
+            "result": result
         })
 
-    except Exception:
+    except Exception as e:
+        print("Upload Error:", e)
+
         return jsonify({
-            "result": "AI service is temporarily busy. Please try again in a few minutes."
+            "result": "AI service is temporarily busy. Please try again in a minute."
         }), 500
 
 
