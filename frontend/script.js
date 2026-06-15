@@ -69,3 +69,43 @@ function copySummary() {
             alert("Failed to copy summary.");
         });
 }
+
+function downloadPDF() {
+
+    const summaryText =
+        document.getElementById("result").innerText;
+
+    if (
+        !summaryText ||
+        summaryText ===
+        "Your AI-generated summary will appear here..."
+    ) {
+        alert("Generate a summary first.");
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    const lines =
+        doc.splitTextToSize(summaryText, 180);
+
+    doc.setFontSize(14);
+
+    doc.text(
+        "AI Study Assistant Summary",
+        10,
+        10
+    );
+
+    doc.setFontSize(11);
+
+    doc.text(
+        lines,
+        10,
+        25
+    );
+
+    doc.save("AI_Study_Summary.pdf");
+}
