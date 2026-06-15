@@ -85,10 +85,16 @@ def upload_file():
             return jsonify({"result": "Gemini API key not configured."}), 500
 
         prompt = f"""
-        Summarize the following study notes in a concise and student-friendly way:
+        You are a study assistant.
 
-        {text[:10000]}
-        """
+       Create:
+       1. A concise summary.
+       2. 3-5 key points.
+       3. Important keywords.
+
+       Study Notes:
+       {text}
+       """
 
         response = client.models.generate_content(
             model="gemini-2.5-flash-lite",
