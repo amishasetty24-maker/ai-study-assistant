@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Gemini API Key from Render environment variable
+# Gemini API Key from Render Environment Variable
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 client = None
@@ -29,19 +29,29 @@ def summarize():
         text = data.get("text", "")
 
         if not text.strip():
-            return jsonify({"result": "Please enter some text."})
+            return jsonify({
+                "result": "Please enter some text."
+            })
 
         if not client:
-            return jsonify({"result": "Gemini API key not configured."}), 500
+            return jsonify({
+                "result": "Gemini API key not configured."
+            }), 500
 
         prompt = f"""
-        Summarize the following study notes in a concise and student-friendly way:
+You are a study assistant.
 
-        {text}
-        """
+Create:
+1. A concise summary.
+2. 3-5 key points.
+3. Important keywords.
+
+Study Notes:
+{text[:10000]}
+"""
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-2.5-flash-lite",
             contents=prompt
         )
 
@@ -49,9 +59,9 @@ def summarize():
             "result": response.text
         })
 
-    except Exception as e:
+    except Exception:
         return jsonify({
-            "result": f"Error: {str(e)}"
+            "result": "AI service is temporarily busy. Please try again in a few minutes."
         }), 500
 
 
@@ -60,7 +70,9 @@ def summarize():
 def upload_file():
     try:
         if "file" not in request.files:
-            return jsonify({"result": "No file uploaded."}), 400
+            return jsonify({
+                "result": "No file uploaded."
+            }), 400
 
         file = request.files["file"]
 
@@ -79,22 +91,26 @@ def upload_file():
             text = file.read().decode("utf-8")
 
         if not text.strip():
-            return jsonify({"result": "No text found in file."})
+            return jsonify({
+                "result": "No text found in file."
+            })
 
         if not client:
-            return jsonify({"result": "Gemini API key not configured."}), 500
+            return jsonify({
+                "result": "Gemini API key not configured."
+            }), 500
 
         prompt = f"""
-        You are a study assistant.
+You are a study assistant.
 
-       Create:
-       1. A concise summary.
-       2. 3-5 key points.
-       3. Important keywords.
+Create:
+1. A concise summary.
+2. 3-5 key points.
+3. Important keywords.
 
-       Study Notes:
-       {text}
-       """
+Study Notes:
+{text[:10000]}
+"""
 
         response = client.models.generate_content(
             model="gemini-2.5-flash-lite",
@@ -106,9 +122,9 @@ def upload_file():
         })
 
     except Exception:
-    return jsonify({
-        "result": "AI service is temporarily busy. Please try again in a few minutes."
-    }), 500
+        return jsonify({
+            "result": "AI service is temporarily busy. Please try again in a few minutes."
+        }), 500
 
 
 if __name__ == "__main__":
