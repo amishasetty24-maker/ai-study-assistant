@@ -155,3 +155,49 @@ async function generateFlashcards() {
             "❌ Error generating flashcards.";
     }
 }
+async function generateQuiz() {
+
+    const text =
+        document.getElementById("inputText").value;
+
+    const result =
+        document.getElementById("result");
+
+    if (!text.trim()) {
+        result.innerText =
+            "Please enter some text.";
+        return;
+    }
+
+    result.innerText =
+        "🎯 Generating quiz...";
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/quiz`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body: JSON.stringify({
+                        text: text
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        result.innerText =
+            data.result;
+
+    } catch (error) {
+
+        result.innerText =
+            "❌ Error generating quiz.";
+    }
+}

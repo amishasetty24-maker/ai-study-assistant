@@ -127,6 +127,47 @@ Study Notes:
         return jsonify({
             "result": "AI service is temporarily busy. Please try again."
         }), 500
+
+@app.route("/quiz", methods=["POST"])
+def quiz():
+    try:
+        data = request.get_json()
+        text = data.get("text", "")
+
+        if not text.strip():
+            return jsonify({
+                "result": "Please enter some text."
+            })
+
+        if not client:
+            return jsonify({
+                "result": "Gemini API key not configured."
+            }), 500
+
+        prompt = f"""
+You are a study assistant.
+
+Create 5 multiple-choice questions (MCQs) from the study notes.
+
+Rules:
+- Each question should have 4 options (A, B, C, D).
+- Show the correct answer after each question.
+- Make questions useful for exam preparation.
+
+Study Notes:
+{text[:10000]}
+"""
+
+        result = generate_summary(prompt)
+
+        return jsonify({
+            "result": result
+        })
+
+    except Exception:
+        return jsonify({
+            "result": "AI service is temporarily busy. Please try again."
+        }), 500
 # PDF UPLOAD + SUMMARIZATION
 @app.route("/upload", methods=["POST"])
 def upload_file():
