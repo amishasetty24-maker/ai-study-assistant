@@ -91,7 +91,7 @@ def upload_file():
         """
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-2.5-flash-lite",
             contents=prompt
         )
 
@@ -99,10 +99,10 @@ def upload_file():
             "result": response.text
         })
 
-    except Exception as e:
-        return jsonify({
-            "result": f"Error: {str(e)}"
-        }), 500
+    except Exception:
+    return jsonify({
+        "result": "AI service is temporarily busy. Please try again in a few minutes."
+    }), 500
 
 
 if __name__ == "__main__":
